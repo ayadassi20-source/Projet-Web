@@ -3,10 +3,13 @@ from .models import Appointment
 from AccountApp.models import Doctor
 # Register your models here.
 #admin.site.register(Appointment)
-
+@admin.action(description="make them confirmed")
+def confirmed_appointment(model,req,queryset):
+    queryset.update(status="CONFIRMED")
 @admin.register(Appointment)
 class AppointmentAdminPers(admin.ModelAdmin):
     #inlines=[DoctorPerso]
+    actions=[confirmed_appointment]
     list_display=('reason','status','duration_minutes','appointment_date')
     list_filter=('status','appointment_date')
     list_editable=('appointment_date','status')
